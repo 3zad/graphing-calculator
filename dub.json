@@ -1,0 +1,26 @@
+{
+	"libs": [
+		"raylib"
+	],
+	"lflags-posix": [
+		"-L."
+	],
+	"lflags-osx": [
+		"-rpath",
+		"@executable_path/"
+	],
+	"lflags-linux": [
+		"-rpath=$$ORIGIN"
+	],
+	"description": "A minimal D application.",
+	"name": "graphing_calculator",
+	"dependencies": {
+		"raylib-d": "~>5.0.1",
+		"fluid": "~>0.6.3"
+	},
+	"authors": [
+		"zacha"
+	],
+	"copyright": "Copyright © 2022, zacha",
+	"license": "proprietary"
+}
