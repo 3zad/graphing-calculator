@@ -1,6 +1,7 @@
 module components.gui;
 
 import fluid;
+import fluid.theme;
 import raylib;
 
 import components.grid;
@@ -12,44 +13,106 @@ import std.format;
 import std.stdio;
 import std.conv;
 
+import components.state;
+import components.color_palette;
+
 public class Gui
 {
-    private Space root, clearScreen, settings;
+    private State state;
+    private Space root;
+    private enum Page { welcome, settings, clear }
+    private Page currentPageState;
 
-    this()
+    public this(State state) {
+        this.state = state;
+
+        currentPageState = Page.welcome;
+        root = buildRootSpace();
+    }
+
+    private Space buildRootSpace()
     {
+        switch (currentPageState)
+        {
+            case Page.welcome:
+                return vspace(
+                    introTheme(),
+                    .layout!"center", vframe(
+                        label(.layout!"center", "Graphing Calculator"),
+                        button(.layout!"center", "Continue", delegate() @trusted {
+                            currentPageState = Page.clear;
+                            root = buildRootSpace();
+                        })),
+                    //imageView(.layout!"center", "image.png", Vector2(200, 200)),
+                );
 
-        Theme theme = Theme.init.makeTheme!q{
-            Space.styleAdd!q{
-                margin = 5;
-                margin.sideY = 10;
-            };
-            Frame.styleAdd!q{
-                margin = 10;
-                backgroundColor = color!"#fffa";
-            };
-            Button!().styleAdd!q{
-                padding.sideTop = 100;
-                textColor = color!"#ffffff";
-                
-            };
-        };
+            case Page.settings:
+                return settingsPage();
 
-        clearScreen = vspace(
-            
-                .layout!(1, "fill"),
-                theme,
-                vframe(
-                    button("Settings", delegate{ writeln("hello"); }),
-                    button("Close", { root = clearScreen; }),
-                ),
+            case Page.clear:
+                return clearPage();
+
+            default:
+                return vspace(label("Error: Unknown Page State. Please contact the developer."));
+        }
+    }
+
+    private Space settingsPage() {
+        return vspace(
+            mainTheme(),
+            label("settings page"),
+            button(.layout!"center", "Close", delegate() @trusted {
+                currentPageState = Page.clear;
+                root = buildRootSpace();
+            })
         );
+    }
 
-        root = clearScreen;
+    private Space clearPage() {
+        return vspace(
+            mainTheme(),
+            button(.layout!"center", "Settings", delegate() @trusted {
+                currentPageState = Page.settings;
+                root = buildRootSpace();
+            })
+        );
     }
 
     public void draw()
     {
         root.draw();
+    }
+
+    private Theme mainTheme() {
+        //auto font = Style.loadTypeface("./source/resources/fonts/schizo.ttf");
+
+        return Theme(
+            rule!Label(
+                //typeface = font,
+            ),
+            rule!Button(
+                //typeface = font,
+            ),
+        );
+    }
+
+    private Theme introTheme() {
+
+        return Theme(
+            rule!GridRow(margin = 100),
+            rule!Button(
+                backgroundColor = color(UIColors.primary),
+                textColor = color(UIColors.textColor),
+                margin = 10,
+                padding = 5,
+            ),
+
+            rule!Frame(
+                backgroundColor = color(UIColors.background),
+            ),
+            rule!Label(
+                textColor = color(UIColors.textColor),
+            )
+        );
     }
 }

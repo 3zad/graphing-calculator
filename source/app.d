@@ -11,11 +11,13 @@ import std.format;
 import std.stdio;
 import std.conv;
 
+import components.state;
+
 void main() {
 
 
     Grid grid = new Grid();
-    Gui gui = new Gui();
+    Gui gui = new Gui(State());
 
     //Create window
 	InitWindow(s.WIDTH, s.HEIGHT, "Visual Graphing Calculator");
