@@ -1,7 +1,7 @@
 import raylib;
 
 import components.settings;
-import components.gui;
+import components.gui.gui;
 import components.grid;
 import components.functions;
 
@@ -13,32 +13,36 @@ import std.conv;
 
 import components.state;
 
-void main() {
+void main()
+{
 
+    State state = State();
 
     Grid grid = new Grid();
-    Gui gui = new Gui(State());
+    Gui gui = new Gui(&state);
 
-    //Create window
-	InitWindow(s.WIDTH, s.HEIGHT, "Visual Graphing Calculator");
+    InitWindow(s.WIDTH, s.HEIGHT, "Visual Graphing Calculator");
     SetTargetFPS(30);
 
-    scope (exit) CloseWindow();
+    scope (exit)
+        CloseWindow();
 
     int z = 1;
 
-	while (!WindowShouldClose())
+    while (!WindowShouldClose())
     {
         BeginDrawing();
+
         ClearBackground(Colors.BLACK);
-        Functions.middleSum(-5, 5, z, 1);
-        grid.grid();
-        grid.graph();
-        gui.draw();
-        EndDrawing();
-        
-        if (z < 10) {
+
+        if (!state.paused)
+        {
+            Functions.middleSum(-5, 5, z, 1);
+            grid.grid();
+            grid.graph();
             z++;
         }
-	}
+        gui.draw();
+        EndDrawing();
+    }
 }
