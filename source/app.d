@@ -2,8 +2,8 @@ import raylib;
 
 import components.settings;
 import components.gui.gui;
-import components.grid;
-import components.functions;
+import components.grid : grid, graph;
+import components.functions : middleSum;
 
 import std.array;
 import std.range;
@@ -11,14 +11,11 @@ import std.format;
 import std.stdio;
 import std.conv;
 
-import components.state;
+import components.state : state;
 
 void main()
 {
-
-    State state = State();
-
-    Grid grid = new Grid();
+    // DI for this
     Gui gui = new Gui(&state);
 
     InitWindow(s.WIDTH, s.HEIGHT, "Visual Graphing Calculator");
@@ -27,7 +24,7 @@ void main()
     scope (exit)
         CloseWindow();
 
-    int z = 1;
+    float z = 1;
 
     while (!WindowShouldClose())
     {
@@ -37,10 +34,10 @@ void main()
 
         if (!state.paused)
         {
-            Functions.middleSum(-5, 5, z, 1);
-            grid.grid();
-            grid.graph();
-            z++;
+            middleSum(-5, 5, to!int(z)%30, 1);
+            grid();
+            graph();
+            z+=0.1;
         }
         gui.draw();
         EndDrawing();

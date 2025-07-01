@@ -24,6 +24,10 @@ public class Gui
     private enum Page { welcome, settings, clear }
     private Page currentPageState;
 
+    // Public access
+    public TextInput equation;
+    public FloatInput leftBound, rightBound;
+
     public this(State* state) {
         this.state = state;
 
@@ -63,9 +67,27 @@ public class Gui
         return vspace(
             mainTheme(),
             label("settings page"),
+            hspace(
+                equation = textInput("Equation...", delegate {
+                    (*state).equation = to!string(equation.value);
+                }),
+                button("Graph", delegate() @trusted {
+                    (*state).equation = to!string(equation.value);
+                })
+            ),
+
+            vspace(
+                label("Riemann sum"),
+                hspace(
+                    label("Left bound: ")
+                ),
+                hspace(
+                    label("Right bound: ")
+                ),
+            ),
+
             button(.layout!"center", "Close", delegate() @trusted {
                 currentPageState = Page.clear;
-                (*state).paused = false;
                 root = buildRootSpace();
             })
         );
@@ -76,7 +98,6 @@ public class Gui
             mainTheme(),
             button(.layout!"center", "Settings", delegate() @trusted {
                 currentPageState = Page.settings;
-                (*state).paused = true;
                 root = buildRootSpace();
             })
         );
@@ -95,6 +116,15 @@ public class Gui
             rule!Button(
                 typeface = minecraftFont,
             ),
+            rule!TextInput(
+                typeface = minecraftFont,
+            ),
+            rule!FloatInput(
+                typeface = minecraftFont,
+            ),
+            rule!IntInput(
+                typeface = minecraftFont,
+            )
         );
     }
 
