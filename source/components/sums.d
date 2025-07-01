@@ -1,10 +1,10 @@
-module components.functions;
+module components.sums;
 
 import raylib;
 
 import components.settings;
 import components.grid;
-import components.evaluator;
+import components.evaluator : evaluateEquation;
 import components.draw : graphRectangle;
 
 import std.array;
@@ -58,6 +58,4 @@ void trapezoidalSum(double a, double b, int n, double rlm, double buffer) {
     }
 }
 
-static double evaluateEquation(double x) {
-    return Evaluator(state.equation, x).eval;
-}
+

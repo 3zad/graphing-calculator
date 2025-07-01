@@ -1,7 +1,7 @@
 module components.grid;
 
 import components.settings;
-import components.functions : evaluateEquation;
+import components.evaluator : evaluateEquation;
 import components.draw : graphRectangle, graphLine;
 
 import raylib;

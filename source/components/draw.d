@@ -1,7 +1,7 @@
 module components.draw;
 
 import components.settings;
-import components.functions : evaluateEquation;
+import components.evaluator : evaluateEquation;
 
 import raylib;
 

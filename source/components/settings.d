@@ -1,7 +1,5 @@
 module components.settings;
 
-import std.regex;
-
 public Settings s;
 
 public struct Settings {

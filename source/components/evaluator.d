@@ -4,6 +4,13 @@ import std;
 import std.math.operations : feqrel;
 import std.math.constants : E;
 
+import components.state : state;
+
+// Simple helper function
+static double evaluateEquation(double x) {
+    return Evaluator(state.equation, x).eval;
+}
+
 struct Evaluator
 {
 

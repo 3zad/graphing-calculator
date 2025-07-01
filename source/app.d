@@ -3,7 +3,7 @@ import raylib;
 import components.settings;
 import components.gui.gui;
 import components.grid : grid, graph;
-import components.functions : middleSum;
+import components.sums : middleSum;
 
 import std.array;
 import std.range;
@@ -19,7 +19,7 @@ void main()
     Gui gui = new Gui(&state);
 
     InitWindow(s.WIDTH, s.HEIGHT, "Visual Graphing Calculator");
-    SetTargetFPS(30);
+    SetTargetFPS(1000);
 
     scope (exit)
         CloseWindow();
