@@ -34,7 +34,7 @@ void main()
 
         if (!state.paused)
         {
-            middleSum(-5, 5, to!int(z)%30, 1);
+            writeln(middleSum(0, 5, to!int(z), 1));
             grid();
             graph();
             z+=0.1;

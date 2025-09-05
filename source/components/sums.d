@@ -16,25 +16,32 @@ import std.regex;
 
 import components.state : state;
 
-void rightSum(double a, double b, int n, double buffer = 0) {
-    sumBase(a, b, n, 0, buffer);
+double rightSum(double a, double b, int n, double buffer = 0) {
+    return sumBase(a, b, n, 0, buffer);
 }
 
-void leftSum(double a, double b, int n, double buffer = 0) {
-    sumBase(a, b, n, 1, buffer);
+double leftSum(double a, double b, int n, double buffer = 0) {
+    return sumBase(a, b, n, 1, buffer);
 }
 
-void middleSum(double a, double b, int n, double buffer = 0) {
-    sumBase(a, b, n, 0.5, buffer);
+double middleSum(double a, double b, int n, double buffer = 0) {
+    return sumBase(a, b, n, 0.5, buffer);
 }
 
-void sumBase(double a, double b, int n, double rlm, double buffer) {
+private double sumBase(double a, double b, int n, double rlm, double buffer) {
     double inc = (b-a)/n;
     double i = a+inc;
     double y;
     int count = 0;
+
+    double area = 0;
+
     while (i < to!int(b) || count < n) {
         y = evaluateEquation(i-inc*rlm);
+        
+        area += y*inc;
+        
+        // Seperate width calculation for scaling
         double width = inc*s.gridScalingX-buffer;
         if (width < 1) {
             width = 1;
@@ -43,6 +50,8 @@ void sumBase(double a, double b, int n, double rlm, double buffer) {
         i += inc;
         count++;
     }
+
+    return area;
 }
 
 void trapezoidalSum(double a, double b, int n, double rlm, double buffer) {

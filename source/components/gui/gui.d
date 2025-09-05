@@ -76,7 +76,27 @@ public class Gui
                 })
             ),
 
-            vspace(
+            hspace(
+                label("Riemann sum"),
+                hspace(
+                    label("Left bound: ")
+                ),
+                hspace(
+                    label("Right bound: ")
+                ),
+            ),
+
+                        hspace(
+                label("Riemann sum"),
+                hspace(
+                    label("Left bound: ")
+                ),
+                hspace(
+                    label("Right bound: ")
+                ),
+            ),
+
+                        hspace(
                 label("Riemann sum"),
                 hspace(
                     label("Left bound: ")
