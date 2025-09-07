@@ -16,6 +16,7 @@ import std.conv;
 import components.state;
 import components.gui.color_palette;
 import components.gui.global_fonts : minecraftFont;
+import components.sums : middleSum;
 
 public class Gui
 {
@@ -25,8 +26,7 @@ public class Gui
     private Page currentPageState;
 
     // Public access
-    public TextInput equation;
-    public FloatInput leftBound, rightBound;
+    public TextInput equation, leftBound, rightBound;
 
     public this(State* state) {
         this.state = state;
@@ -78,32 +78,18 @@ public class Gui
 
             hspace(
                 label("Riemann sum"),
-                hspace(
-                    label("Left bound: ")
-                ),
-                hspace(
-                    label("Right bound: ")
-                ),
-            ),
-
-                        hspace(
-                label("Riemann sum"),
-                hspace(
-                    label("Left bound: ")
-                ),
-                hspace(
-                    label("Right bound: ")
-                ),
-            ),
-
-                        hspace(
-                label("Riemann sum"),
-                hspace(
-                    label("Left bound: ")
-                ),
-                hspace(
-                    label("Right bound: ")
-                ),
+                leftBound = textInput("Lbound", delegate {
+                    
+                }),
+                rightBound = textInput("Rbound", delegate {
+                    
+                }),
+                button("Integrate", delegate() @trusted {
+                    (*state).leftBound = to!double(leftBound.value);
+                    (*state).rightBound = to!double(rightBound.value);
+                    // 1000 as a placeholder for an accurate value
+                    (*state).integrationResult = middleSum((*state).leftBound, (*state).rightBound, 1000, 1);
+                })
             ),
 
             button(.layout!"center", "Close", delegate() @trusted {
@@ -119,7 +105,8 @@ public class Gui
             button(.layout!"center", "Settings", delegate() @trusted {
                 currentPageState = Page.settings;
                 root = buildRootSpace();
-            })
+            }),
+            label(to!string((*state).integrationResult))
         );
     }
 
@@ -131,6 +118,7 @@ public class Gui
     private Theme mainTheme() {
         return Theme(
             rule!Label(
+                backgroundColor = color("#fff"),
                 typeface = minecraftFont,
             ),
             rule!Button(

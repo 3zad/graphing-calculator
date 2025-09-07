@@ -3,7 +3,6 @@ import raylib;
 import components.settings;
 import components.gui.gui;
 import components.grid : grid, graph;
-import components.sums : middleSum;
 
 import std.array;
 import std.range;
@@ -24,8 +23,6 @@ void main()
     scope (exit)
         CloseWindow();
 
-    float z = 1;
-
     while (!WindowShouldClose())
     {
         BeginDrawing();
@@ -34,10 +31,8 @@ void main()
 
         if (!state.paused)
         {
-            writeln(middleSum(0, 5, to!int(z), 1));
             grid();
             graph();
-            z+=0.1;
         }
         gui.draw();
         EndDrawing();
