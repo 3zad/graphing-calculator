@@ -11,6 +11,7 @@ import std.stdio;
 import std.conv;
 
 import components.state : state;
+import components.sums : middleSum;
 
 void main()
 {
@@ -33,6 +34,11 @@ void main()
         {
             grid();
             graph();
+
+            if (state.displayIntegral)
+            {
+                state.integrationResult = middleSum(state.leftBound, state.rightBound, state.intRange*1000, 1);
+            }
         }
         gui.draw();
         EndDrawing();

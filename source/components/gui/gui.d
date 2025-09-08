@@ -88,8 +88,8 @@ public class Gui
                     (*state).leftBound = to!double(leftBound.value);
                     (*state).rightBound = to!double(rightBound.value);
                     // 1000 times rightbound-leftbound as a placeholder for an accurate value
-                    int range = to!int((*state).rightBound-(*state).leftBound);
-                    (*state).integrationResult = middleSum((*state).leftBound, (*state).rightBound, range*1000, 1);
+                    (*state).intRange = to!int((*state).rightBound-(*state).leftBound);
+                    (*state).displayIntegral = true;
                 })
             ),
 
