@@ -87,8 +87,9 @@ public class Gui
                 button("Integrate", delegate() @trusted {
                     (*state).leftBound = to!double(leftBound.value);
                     (*state).rightBound = to!double(rightBound.value);
-                    // 1000 as a placeholder for an accurate value
-                    (*state).integrationResult = middleSum((*state).leftBound, (*state).rightBound, 1000, 1);
+                    // 1000 times rightbound-leftbound as a placeholder for an accurate value
+                    int range = to!int((*state).rightBound-(*state).leftBound);
+                    (*state).integrationResult = middleSum((*state).leftBound, (*state).rightBound, range*1000, 1);
                 })
             ),
 
