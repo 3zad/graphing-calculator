@@ -22,11 +22,12 @@ public class Gui
 {
     private State* state;
     private Space root;
-    private enum Page { welcome, settings, clear }
+    private enum Page { welcome, settings, graphSettings, clear }
     private Page currentPageState;
 
     // Public access
     public TextInput equation, leftBound, rightBound;
+    public TextInput scaleXLower, scaleXUpper, scaleYLower, scaleYUpper;
 
     public this(State* state) {
         this.state = state;
@@ -58,6 +59,9 @@ public class Gui
             case Page.clear:
                 return clearPage();
 
+            case Page.graphSettings:
+                return graphSettingsPage();
+
             default:
                 return vspace(label("Error: Unknown Page State. Please contact the developer."));
         }
@@ -66,7 +70,13 @@ public class Gui
     private Space settingsPage() {
         return vspace(
             mainTheme(),
-            label("settings page"),
+            hspace(
+                label("Settings"),
+                button("Graph settings", delegate() @trusted {
+                    currentPageState = Page.graphSettings;
+                    root = buildRootSpace();
+                })
+            ),
             hspace(
                 equation = textInput("Equation...", delegate {
                     (*state).equation = to!string(equation.value);
@@ -95,6 +105,38 @@ public class Gui
 
             button(.layout!"center", "Close", delegate() @trusted {
                 currentPageState = Page.clear;
+                root = buildRootSpace();
+            })
+        );
+    }
+
+    private Space graphSettingsPage() {
+        return vspace(
+            mainTheme(),
+            
+            label("Graph Settings"),
+            hspace(
+                scaleXLower = textInput("", delegate {
+                }),
+                label(" < x < "),
+                scaleXUpper = textInput("", delegate {
+                }),
+            ),
+
+            hspace(
+                scaleYLower = textInput("", delegate {
+                }),
+                label(" < y < "),
+                scaleYUpper = textInput("", delegate {
+                }),
+            ),
+
+            button("Set", delegate() @trusted {
+                // TODO!!!!!
+            }),
+
+            button(.layout!"center", "Close", delegate() @trusted {
+                currentPageState = Page.settings;
                 root = buildRootSpace();
             })
         );
