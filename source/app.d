@@ -11,13 +11,16 @@ import std.stdio;
 import std.conv;
 
 import components.state : state;
+import components.settings : s;
 import components.sums : middleSum;
 
 void main()
 {
     // DI for this
-    Gui gui = new Gui(&state);
+    Gui gui = new Gui(&state, &s);
 
+    SetConfigFlags(ConfigFlags.FLAG_WINDOW_RESIZABLE);
+    SetConfigFlags(ConfigFlags.FLAG_WINDOW_ALWAYS_RUN);
     InitWindow(s.WIDTH, s.HEIGHT, "Visual Graphing Calculator");
     SetTargetFPS(1000);
 

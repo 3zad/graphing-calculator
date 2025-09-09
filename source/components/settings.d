@@ -1,7 +1,5 @@
 module components.settings;
 
-public Settings s;
-
 public struct Settings {
     //All data immutable by the user
     immutable int WIDTH = 512*2;
@@ -22,3 +20,5 @@ public struct Settings {
     //All data mutable by the program
     bool refresh = true;
 }
+
+__gshared Settings s;

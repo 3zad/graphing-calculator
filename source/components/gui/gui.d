@@ -5,7 +5,6 @@ import fluid.theme;
 import raylib;
 
 import components.grid;
-import components.settings;
 
 import std.array;
 import std.range;
@@ -14,6 +13,7 @@ import std.stdio;
 import std.conv;
 
 import components.state;
+import components.settings;
 import components.gui.color_palette;
 import components.gui.global_fonts : minecraftFont;
 import components.sums : middleSum;
@@ -21,6 +21,8 @@ import components.sums : middleSum;
 public class Gui
 {
     private State* state;
+    private Settings* s;
+
     private Space root;
     private enum Page { welcome, settings, graphSettings, clear }
     private Page currentPageState;
@@ -29,8 +31,9 @@ public class Gui
     public TextInput equation, leftBound, rightBound;
     public TextInput scaleXLower, scaleXUpper, scaleYLower, scaleYUpper;
 
-    public this(State* state) {
+    public this(State* state, Settings* s) {
         this.state = state;
+        this.s = s;
 
         currentPageState = Page.welcome;
         root = buildRootSpace();
@@ -78,9 +81,7 @@ public class Gui
                 })
             ),
             hspace(
-                equation = textInput("Equation...", delegate {
-                    (*state).equation = to!string(equation.value);
-                }),
+                equation = textInput("Equation..."),
                 button("Graph", delegate() @trusted {
                     (*state).equation = to!string(equation.value);
                 })
@@ -88,12 +89,8 @@ public class Gui
 
             hspace(
                 label("Riemann sum"),
-                leftBound = textInput("Lbound", delegate {
-                    
-                }),
-                rightBound = textInput("Rbound", delegate {
-                    
-                }),
+                leftBound = textInput("Lbound"),
+                rightBound = textInput("Rbound"),
                 button("Integrate", delegate() @trusted {
                     (*state).leftBound = to!double(leftBound.value);
                     (*state).rightBound = to!double(rightBound.value);
@@ -116,24 +113,40 @@ public class Gui
             
             label("Graph Settings"),
             hspace(
-                scaleXLower = textInput("", delegate {
-                }),
+                scaleXLower = textInput(""),
                 label(" < x < "),
-                scaleXUpper = textInput("", delegate {
+                scaleXUpper = textInput(""),
+            ),
+
+            hspace(
+                scaleYLower = textInput(""),
+                label(" < y < "),
+                scaleYUpper = textInput(""),
+            ),
+
+            button("Set", delegate() @trusted {
+                (*s).gridScalingX = to!int((*s).gridScalingX*0.9);
+            }),
+
+            hspace(
+                button("-", delegate() @trusted {
+                    (*s).gridScalingX = to!int((*s).gridScalingX*0.9);
+                }),
+                label(" x "),
+                button("+", delegate() @trusted {
+                    (*s).gridScalingX = to!int((*s).gridScalingX*1.1);
                 }),
             ),
 
             hspace(
-                scaleYLower = textInput("", delegate {
+                button("-", delegate() @trusted {
+                    (*s).gridScalingY = to!int((*s).gridScalingY*0.9);
                 }),
-                label(" < y < "),
-                scaleYUpper = textInput("", delegate {
+                label(" y "),
+                button("+", delegate() @trusted {
+                    (*s).gridScalingY = to!int((*s).gridScalingY*1.1);
                 }),
             ),
-
-            button("Set", delegate() @trusted {
-                // TODO!!!!!
-            }),
 
             button(.layout!"center", "Close", delegate() @trusted {
                 currentPageState = Page.settings;
