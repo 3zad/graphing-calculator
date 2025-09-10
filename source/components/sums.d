@@ -29,6 +29,10 @@ double middleSum(double a, double b, int n, double buffer = 0) {
 }
 
 private double sumBase(double a, double b, int n, double rlm, double buffer) {
+    if (n < 1) {
+        n = 1000*to!int(b-a);
+    }
+
     double inc = (b-a)/n;
     double i = a+inc;
     double y;

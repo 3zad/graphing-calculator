@@ -40,7 +40,7 @@ void main()
 
             if (state.displayIntegral)
             {
-                state.integrationResult = middleSum(state.leftBound, state.rightBound, state.intRange*1000, 1);
+                state.integrationResult = middleSum(state.leftBound, state.rightBound, state.numBars, 1);
             }
         }
         gui.draw();

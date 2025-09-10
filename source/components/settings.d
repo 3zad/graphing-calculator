@@ -17,6 +17,8 @@ public struct Settings {
     int gridIncPower = 0;
     int gridInc = 0;
 
+    double inc = 0.1;
+
     //All data mutable by the program
     bool refresh = true;
 }

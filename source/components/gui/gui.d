@@ -27,8 +27,11 @@ public class Gui
     private enum Page { welcome, settings, graphSettings, clear }
     private Page currentPageState;
 
+    private Slider!double incSlider;
+    private Label incSliderLabel;
+
     // Public access
-    public TextInput equation, leftBound, rightBound;
+    public TextInput equation, leftBound, rightBound, numBars;
     public TextInput scaleXLower, scaleXUpper, scaleYLower, scaleYUpper;
 
     public this(State* state, Settings* s) {
@@ -91,13 +94,17 @@ public class Gui
                 label("Riemann sum"),
                 leftBound = textInput("Lbound"),
                 rightBound = textInput("Rbound"),
+            ),
+            hspace(
+                numBars = textInput("Steps"),
                 button("Integrate", delegate() @trusted {
                     (*state).leftBound = to!double(leftBound.value);
                     (*state).rightBound = to!double(rightBound.value);
+                    (*state).numBars = to!int(numBars.value);
                     // 1000 times rightbound-leftbound as a placeholder for an accurate value
                     (*state).intRange = to!int((*state).rightBound-(*state).leftBound);
                     (*state).displayIntegral = true;
-                })
+                }),
             ),
 
             button(.layout!"center", "Close", delegate() @trusted {
@@ -128,6 +135,7 @@ public class Gui
                 (*s).gridScalingX = to!int((*s).gridScalingX*0.9);
             }),
 
+            label("Scale graph"),
             hspace(
                 button("-", delegate() @trusted {
                     (*s).gridScalingX = to!int((*s).gridScalingX*0.9);
@@ -146,6 +154,41 @@ public class Gui
                 button("+", delegate() @trusted {
                     (*s).gridScalingY = to!int((*s).gridScalingY*1.1);
                 }),
+            ),
+
+            label("Shift Graph"),
+            hspace(
+                button("-", delegate() @trusted {
+                    (*s).offsetX -= 100;
+                }),
+                label(" x "),
+                button("+", delegate() @trusted {
+                    (*s).offsetX += 100;
+                }),
+            ),
+
+            hspace(
+                button("-", delegate() @trusted {
+                    (*s).offsetY += 100;
+                }),
+                label(" y "),
+                button("+", delegate() @trusted {
+                    (*s).offsetY -= 100;
+                }),
+            ),
+
+
+            hspace(
+                label("Graph increment: "),
+                incSliderLabel = label(to!string(s.inc)),
+            ),
+            incSlider = slider!double(
+                .layout!"fill",
+                iota(0.05,10, 0.05),
+                delegate {
+                    (*s).inc = to!double(incSlider.value.text);
+                    incSliderLabel.text = incSlider.value.text;
+                }
             ),
 
             button(.layout!"center", "Close", delegate() @trusted {
@@ -188,7 +231,14 @@ public class Gui
             ),
             rule!IntInput(
                 typeface = minecraftFont,
-            )
+            ),
+            rule!SliderHandle(
+                backgroundColor = color("#fff"),
+            ),
+            rule!AbstractSlider(
+                backgroundColor = color("#ddd"),
+                lineColor = color("#ddd"),
+            ),
         );
     }
 

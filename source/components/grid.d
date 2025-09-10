@@ -38,9 +38,8 @@ void grid()
 }
 
 void graph() {
-    double inc = 0.1;
-    for (double z = 10*(-s.offsetX-500); z < 10*(s.graphW-s.offsetX); z += inc) {
-        double nextY = evaluateEquation(z+inc);
-        graphLine(z, evaluateEquation(z), z+inc, nextY, Colors.RED);
+    for (double z = 10*(-s.offsetX-500); z < 10*(s.graphW-s.offsetX); z += s.inc) {
+        double nextY = evaluateEquation(z+s.inc);
+        graphLine(z, evaluateEquation(z), z+s.inc, nextY, Colors.RED);
     }
 }
