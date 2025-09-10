@@ -16,8 +16,11 @@ public class RiemannPage
     private Settings* s;
     private void delegate() onClose;
 
+    private Label sumLabel;
+
     // Public access to the text inputs for use by the main Gui class if needed
     public TextInput equation, leftBound, rightBound, numBars;
+    public TextInput animateBarsLowerBound, animateBarsUpperBound, animateBarsStep, animateSpeed;
 
     public this(State* state, Settings* s, void delegate() onClose) {
         this.state = state;
@@ -45,9 +48,40 @@ public class RiemannPage
                     (*state).displayIntegral = true;
                 }),
             ),
+
+            label("Animate"),
+            
+            hspace(
+                animateBarsLowerBound = textInput("Min bars"),
+                animateBarsUpperBound = textInput("Max bars"),
+                animateBarsStep = textInput("Step"),
+                animateSpeed = textInput("Speed"),
+            ),
+
+            hspace(
+                button("Start", delegate() @trusted {
+                    (*state).animate = true;
+                    (*state).animateBarsLowerBound = to!int(animateBarsLowerBound.value);
+                    (*state).animateBarsUpperBound = to!int(animateBarsUpperBound.value);
+                    (*state).animateBarsStep = to!int(animateBarsStep.value);
+                    (*state).animateSpeed = to!int(animateSpeed.value);
+                    (*state).displayIntegral = true;
+                }),
+                button("Stop", delegate() @trusted {
+                    (*state).animate = false;
+                    (*state).displayIntegral = false;
+                }),
+            ),
+
+            sumLabel = label("nan"),
+
             button(.layout!"center", "Close", delegate() @trusted {
                 onClose();
             })
         );
+    }
+
+    public void update() {
+        sumLabel.text = to!string((*state).integrationResult);
     }
 }

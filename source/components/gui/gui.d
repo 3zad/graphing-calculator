@@ -30,7 +30,7 @@ public class Gui
 
     private SettingsPage settingsPage;
     private GraphSettingsPage graphSettingsPage;
-    private RiemannPage riemannPage;
+    public RiemannPage riemannPage;
 
     public this(State* state, Settings* s) {
         this.state = state;

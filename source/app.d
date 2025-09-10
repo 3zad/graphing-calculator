@@ -40,7 +40,17 @@ void main()
 
             if (state.displayIntegral)
             {
-                state.integrationResult = middleSum(state.leftBound, state.rightBound, state.numBars, 1);
+                if (state.animate) {
+                    if (state.numBars < state.animateBarsUpperBound) {
+                        gui.riemannPage.update();
+                        state.integrationResult = middleSum(state.leftBound, state.rightBound, state.numBars, 1);
+                        state.numBars += state.animateBarsStep;
+                    } else {
+                        state.numBars = state.animateBarsLowerBound;
+                    }
+                } else {
+                    state.integrationResult = middleSum(state.leftBound, state.rightBound, state.numBars, 1);
+                }
             }
         }
         gui.draw();
