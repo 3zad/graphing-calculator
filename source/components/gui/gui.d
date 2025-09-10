@@ -18,6 +18,8 @@ import components.gui.color_palette;
 import components.gui.global_fonts : minecraftFont;
 import components.sums : middleSum;
 
+import components.gui.settings_page;
+
 public class Gui
 {
     private State* state;
@@ -34,11 +36,26 @@ public class Gui
     public TextInput equation, leftBound, rightBound, numBars;
     public TextInput scaleXLower, scaleXUpper, scaleYLower, scaleYUpper;
 
+    private SettingsPage settingsPage;
+
     public this(State* state, Settings* s) {
         this.state = state;
         this.s = s;
 
         currentPageState = Page.welcome;
+
+        // Switch pages
+        this.settingsPage = new SettingsPage(state, s,
+            () @trusted {
+                currentPageState = Page.graphSettings;
+                root = buildRootSpace();
+            },
+            () @trusted {
+                currentPageState = Page.clear;
+                root = buildRootSpace();
+            }
+        );
+
         root = buildRootSpace();
     }
 
@@ -60,7 +77,7 @@ public class Gui
                 );
 
             case Page.settings:
-                return settingsPage();
+                return settingsPage.buildSpace();
 
             case Page.clear:
                 return clearPage();
@@ -71,47 +88,6 @@ public class Gui
             default:
                 return vspace(label("Error: Unknown Page State. Please contact the developer."));
         }
-    }
-
-    private Space settingsPage() {
-        return vspace(
-            mainTheme(),
-            hspace(
-                label("Settings"),
-                button("Graph settings", delegate() @trusted {
-                    currentPageState = Page.graphSettings;
-                    root = buildRootSpace();
-                })
-            ),
-            hspace(
-                equation = textInput("Equation..."),
-                button("Graph", delegate() @trusted {
-                    (*state).equation = to!string(equation.value);
-                })
-            ),
-
-            hspace(
-                label("Riemann sum"),
-                leftBound = textInput("Lbound"),
-                rightBound = textInput("Rbound"),
-            ),
-            hspace(
-                numBars = textInput("Steps"),
-                button("Integrate", delegate() @trusted {
-                    (*state).leftBound = to!double(leftBound.value);
-                    (*state).rightBound = to!double(rightBound.value);
-                    (*state).numBars = to!int(numBars.value);
-                    // 1000 times rightbound-leftbound as a placeholder for an accurate value
-                    (*state).intRange = to!int((*state).rightBound-(*state).leftBound);
-                    (*state).displayIntegral = true;
-                }),
-            ),
-
-            button(.layout!"center", "Close", delegate() @trusted {
-                currentPageState = Page.clear;
-                root = buildRootSpace();
-            })
-        );
     }
 
     private Space graphSettingsPage() {
