@@ -1,17 +1,14 @@
-// components/gui/pages/SettingsPage.d
 module components.gui.settings_page;
 
 import fluid;
-import fluid.theme;
 import raylib;
 
 import components.state;
 import components.settings;
-import components.gui.global_fonts : minecraftFont;
-import components.gui.color_palette;
 
 import std.conv;
-import std.stdio;
+
+import components.gui.themes;
 
 public class SettingsPage
 {
@@ -31,7 +28,7 @@ public class SettingsPage
 
     public Space buildSpace() {
         return vspace(
-            mainTheme(),
+            Themes.mainTheme(),
             hspace(
                 label("Settings"),
                 button("Graph settings", delegate() @trusted {
@@ -63,34 +60,6 @@ public class SettingsPage
             button(.layout!"center", "Close", delegate() @trusted {
                 onClose();
             })
-        );
-    }
-    
-    private Theme mainTheme() {
-        return Theme(
-            rule!Label(
-                backgroundColor = color("#fff"),
-                typeface = minecraftFont,
-            ),
-            rule!Button(
-                typeface = minecraftFont,
-            ),
-            rule!TextInput(
-                typeface = minecraftFont,
-            ),
-            rule!FloatInput(
-                typeface = minecraftFont,
-            ),
-            rule!IntInput(
-                typeface = minecraftFont,
-            ),
-            rule!SliderHandle(
-                backgroundColor = color("#fff"),
-            ),
-            rule!AbstractSlider(
-                backgroundColor = color("#ddd"),
-                lineColor = color("#ddd"),
-            ),
         );
     }
 }

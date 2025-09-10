@@ -3,7 +3,6 @@ module components.gui.global_fonts;
 import fluid;
 import fluid.typeface;
 import fluid.theme;
-import raylib;
 
 __gshared Typeface minecraftFont;
 
