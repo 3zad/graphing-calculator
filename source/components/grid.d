@@ -15,12 +15,14 @@ import std.conv;
 
 void grid()
 {
-    graphRectangle(0, -s.offsetY/100, 2, s.HEIGHT-s.gridThickness*s.HEIGHT, Colors.WHITE);
-    graphRectangle(s.offsetX/100, 0, s.WIDTH-s.gridThickness*s.WIDTH, 2, Colors.WHITE);
+    // y-axis
+    graphRectangle(0, -s.offsetY/100, 2, GetScreenHeight()-s.gridThickness*GetScreenHeight(), Colors.WHITE);
+    // x-axis
+    graphRectangle(s.offsetX/100, 0, GetScreenWidth()-s.gridThickness*GetScreenWidth(), 2, Colors.WHITE);
     
     for (int z = -1; z < 2; z+=2) {
         int markerPos = 0;
-        while (markerPos < s.WIDTH-s.offsetX && markerPos > -s.WIDTH-s.offsetX) {
+        while (markerPos < GetScreenWidth()-s.offsetX && markerPos > -GetScreenWidth()-s.offsetX) {
             graphRectangle(markerPos, 0, 2, 50, Colors.RED);
             markerPos += z;
         }
@@ -28,7 +30,7 @@ void grid()
 
     for (int z = -1; z < 2; z+=2) {
         int markerPos = 0;
-        while (markerPos < s.HEIGHT-s.offsetY && markerPos > -s.HEIGHT-s.offsetY) {
+        while (markerPos < GetScreenHeight()-s.offsetY && markerPos > -GetScreenHeight()-s.offsetY) {
             graphRectangle(0, markerPos, 50, 2, Colors.RED);
             markerPos += z;
         }
