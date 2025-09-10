@@ -15,6 +15,7 @@ import components.settings;
 
 import components.gui.settings_page;
 import components.gui.graph_settings_page;
+import components.gui.riemann_page;
 
 import components.gui.themes;
 
@@ -24,11 +25,12 @@ public class Gui
     private Settings* s;
 
     private Space root;
-    private enum Page { welcome, settings, graphSettings, clear }
+    private enum Page { welcome, settings, graphSettings, riemann, clear }
     private Page currentPageState;
 
     private SettingsPage settingsPage;
     private GraphSettingsPage graphSettingsPage;
+    private RiemannPage riemannPage;
 
     public this(State* state, Settings* s) {
         this.state = state;
@@ -36,10 +38,14 @@ public class Gui
 
         currentPageState = Page.welcome;
 
-        // Switch pages
+        // Pass in the delegates for page switching 
         this.settingsPage = new SettingsPage(state, s,
             () @trusted {
                 currentPageState = Page.graphSettings;
+                root = buildRootSpace();
+            },
+            () @trusted {
+                currentPageState = Page.riemann;
                 root = buildRootSpace();
             },
             () @trusted {
@@ -54,6 +60,14 @@ public class Gui
                 root = buildRootSpace();
             }
         );
+
+        this.riemannPage = new RiemannPage(state, s,
+            () @trusted {
+                currentPageState = Page.clear;
+                root = buildRootSpace();
+            }
+        );
+        // --------------------------------------------
 
         root = buildRootSpace();
     }
@@ -84,11 +98,15 @@ public class Gui
             case Page.graphSettings:
                 return graphSettingsPage.buildSpace();
 
+            case Page.riemann:
+                return riemannPage.buildSpace();
+
             default:
                 return vspace(label("Error: Unknown Page State. Please contact the developer."));
         }
     }
 
+    // Too small to be its own class
     private Space clearPage() {
         return vspace(
             Themes.mainTheme(),
