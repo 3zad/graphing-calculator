@@ -15,6 +15,8 @@ public struct State {
     int animateBarsStep = 1;
     int animateSpeed = 100; // ms
     bool animate = false;
+    int currentTicks = 0;
+    int lastUpdateTicks = 0;
 
     double integrationResult;
     bool displayIntegral = false;

@@ -41,10 +41,17 @@ void main()
             if (state.displayIntegral)
             {
                 if (state.animate) {
-                    if (state.numBars < state.animateBarsUpperBound) {
-                        gui.riemannPage.update();
-                        state.integrationResult = middleSum(state.leftBound, state.rightBound, state.numBars, 1);
+                    state.currentTicks += 1;
+
+                    // check that enough time has passed to update
+                    if (state.currentTicks - state.lastUpdateTicks >= state.animateSpeed) {
+                        state.lastUpdateTicks = state.currentTicks;
                         state.numBars += state.animateBarsStep;
+                        gui.riemannPage.update();
+                    }
+                    // Check if we need to reset the number of bars
+                    if (state.numBars < state.animateBarsUpperBound) {
+                        state.integrationResult = middleSum(state.leftBound, state.rightBound, state.numBars, 1);
                     } else {
                         state.numBars = state.animateBarsLowerBound;
                     }

@@ -56,4 +56,13 @@ public class Themes {
             )
         );
     }
+
+    public static Theme errorTheme() {
+        return Theme(
+            rule!Label(
+                typeface = minecraftFont,
+                textColor = color("#ff0000"),
+            )
+        );
+    }
 }
