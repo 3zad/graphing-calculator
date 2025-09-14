@@ -27,6 +27,10 @@ void main()
     scope (exit)
         CloseWindow();
 
+
+    bool isDragging = false;
+    Vector2 dragStartPos;
+
     while (!WindowShouldClose())
     {
         BeginDrawing();
@@ -60,6 +64,27 @@ void main()
                 }
             }
         }
+
+        if (IsMouseButtonPressed(0x0)) {
+            isDragging = true;
+            dragStartPos = GetMousePosition();
+        }
+
+        if (isDragging && IsMouseButtonDown(0x0)) {
+            Vector2 currentPos = GetMousePosition();
+            Vector2 delta = currentPos - dragStartPos;
+
+            s.offsetX -= delta.x / (GetScreenWidth()) * (10 * s.gridScalingX);
+            s.offsetY -= delta.y / (GetScreenHeight()) * (10 * s.gridScalingY);
+
+            dragStartPos = currentPos;
+        }
+
+        // detect mouse release
+        if (IsMouseButtonReleased(0x0)) {
+            isDragging = false;
+        }
+
         gui.draw();
         EndDrawing();
     }

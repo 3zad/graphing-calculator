@@ -10,12 +10,12 @@ public struct Settings {
     int graphH = HEIGHT;
 
     double gridThickness = 0.025;
-    int gridScalingX = 50;
-    int gridScalingY = 50;
-    int offsetX = 0;
-    int offsetY = 0;
-    int gridIncPower = 0;
-    int gridInc = 0;
+    double gridScalingX = 50;
+    double gridScalingY = 50;
+    double offsetX = 0;
+    double offsetY = 0;
+    double gridIncPower = 0;
+    double gridInc = 0;
 
     double inc = 0.1;
 
