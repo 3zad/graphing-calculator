@@ -2,8 +2,8 @@ module components.settings;
 
 public struct Settings {
     //All data immutable by the user
-    immutable int WIDTH = 512*2;
-    immutable int HEIGHT = 512*2;
+    immutable int WIDTH = 512;
+    immutable int HEIGHT = 512;
 
     //All data mutable by the user
     int graphW = WIDTH;
