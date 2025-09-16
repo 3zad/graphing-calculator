@@ -16,9 +16,9 @@ void grid()
 {
 
     // y-axis
-    graphRectangle(0, -s.offsetY/100, 2, GetScreenHeight()-s.gridThickness*GetScreenHeight(), Colors.WHITE);
+    graphRectangle(0, -s.offsetY/50, 2, GetScreenHeight()-s.gridThickness*GetScreenHeight(), Colors.WHITE);
     // x-axis
-    graphRectangle(s.offsetX/100, 0, GetScreenWidth()-s.gridThickness*GetScreenWidth(), 2, Colors.WHITE);
+    graphRectangle(s.offsetX/50, 0, GetScreenWidth()-s.gridThickness*GetScreenWidth(), 2, Colors.WHITE);
     
     // Markers and grid lines
     for (int z = -1; z < 2; z+=2) {
