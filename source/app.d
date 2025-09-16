@@ -1,3 +1,9 @@
+// TODO:
+/*
+    - Ability to import a list of points ex. [(1,2), (2,4), (3,2)...]
+    - Random point scatter to calculate the area under a curve enclosed in a box
+*/
+
 import raylib;
 
 import components.settings;

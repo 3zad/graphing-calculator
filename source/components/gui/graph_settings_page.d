@@ -103,6 +103,13 @@ public class GraphSettingsPage {
                 }
             ),
 
+            button("Home", delegate() @trusted {
+                s.gridScalingX = 50;
+                s.gridScalingY = 50;
+                s.offsetX = 0;
+                s.offsetY = 0;
+            }),
+
             button(.layout!"center", "Close", delegate() @trusted {
                 onClose();
             })
