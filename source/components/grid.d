@@ -12,7 +12,6 @@ import std.format;
 import std.stdio;
 import std.conv;
 
-
 void grid()
 {
 
@@ -24,7 +23,7 @@ void grid()
     // Markers and grid lines
     for (int z = -1; z < 2; z+=2) {
         int markerPos = 0;
-        while (markerPos < GetScreenWidth()-s.offsetX && markerPos > -GetScreenWidth()-s.offsetX) {
+        while (markerPos < GetScreenWidth() && markerPos > -GetScreenWidth()) {
             graphRectangle(markerPos, 0, 1, GetScreenHeight(), Colors.GRAY);
             graphRectangle(markerPos, 0, 2, 50, Colors.RED);
             markerPos += z;
@@ -33,7 +32,7 @@ void grid()
 
     for (int z = -1; z < 2; z+=2) {
         int markerPos = 0;
-        while (markerPos < GetScreenHeight()-s.offsetY && markerPos > -GetScreenHeight()-s.offsetY) {
+        while (markerPos < GetScreenHeight() && markerPos > -GetScreenHeight()) {
             graphRectangle(0, markerPos, GetScreenWidth(), 1, Colors.GRAY);
             graphRectangle(0, markerPos, 50, 2, Colors.RED);
             markerPos += z;
@@ -41,8 +40,10 @@ void grid()
     }
 }
 
+
+// TODO: make the nextY not need to be calculated twice
 void graph() {
-    for (double z = 10*(-s.offsetX-500); z < 10*(s.graphW-s.offsetX); z += s.inc) {
+    for (double z = (s.offsetX-GetScreenWidth())/50; z < (s.offsetX+GetScreenWidth())/50; z += s.inc) {
         double nextY = evaluateEquation(z+s.inc);
         graphLine(z, evaluateEquation(z), z+s.inc, nextY, Colors.RED);
     }
