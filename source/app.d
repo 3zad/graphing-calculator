@@ -80,6 +80,7 @@ void main()
             Vector2 currentPos = GetMousePosition();
             Vector2 delta = currentPos - dragStartPos;
 
+            // Fix the panning speed being too fast when zoomed very far in
             s.offsetX -= delta.x / (GetScreenWidth()) * (10 * s.gridScalingX);
             s.offsetY -= delta.y / (GetScreenHeight()) * (10 * s.gridScalingY);
 
