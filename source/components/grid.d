@@ -12,17 +12,13 @@ import std.format;
 import std.stdio;
 import std.conv;
 
-
 void grid()
 {
 
     // y-axis
-    graphRectangle(0, -s.offsetY/100, 2, GetScreenHeight()-s.gridThickness*GetScreenHeight(), Colors.WHITE);
-
+    graphRectangle(0, -s.offsetY/50, 2, GetScreenHeight()-s.gridThickness*GetScreenHeight(), Colors.WHITE);
     // x-axis
-    graphRectangle(s.offsetX/100, 0, GetScreenWidth()-s.gridThickness*GetScreenWidth(), 2, Colors.WHITE);
-
-    graphRectangle(50, 10, 20, 20, Colors.WHITE);
+    graphRectangle(s.offsetX/50, 0, GetScreenWidth()-s.gridThickness*GetScreenWidth(), 2, Colors.WHITE);
     
     // Markers and grid lines
     for (int z = -1; z < 2; z+=2) {
@@ -44,8 +40,10 @@ void grid()
     }
 }
 
+
+// TODO: make the nextY not need to be calculated twice
 void graph() {
-    for (double z = 10*(-s.offsetX-500); z < 10*(s.graphW-s.offsetX); z += s.inc) {
+    for (double z = (s.offsetX-GetScreenWidth())/50; z < (s.offsetX+GetScreenWidth())/50; z += s.inc) {
         double nextY = evaluateEquation(z+s.inc);
         graphLine(z, evaluateEquation(z), z+s.inc, nextY, Colors.RED);
     }
