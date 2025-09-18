@@ -18,7 +18,8 @@ import std.conv;
 
 import components.state : state;
 import components.settings : s;
-import components.sums : middleSum;
+import components.mouse_handler : MouseHandler;
+import components.integration_handler : IntegrationHandler;
 
 void main()
 {
@@ -33,9 +34,8 @@ void main()
     scope (exit)
         CloseWindow();
 
-
-    bool isDragging = false;
-    Vector2 dragStartPos;
+    MouseHandler mouseHandler = new MouseHandler(&state, &s);
+    IntegrationHandler integrationHandler = new IntegrationHandler(&state, &s, &gui);
 
     while (!WindowShouldClose())
     {
@@ -47,58 +47,11 @@ void main()
         {
             grid();
             graph();
+            integrationHandler.update();
 
-            if (state.displayIntegral)
-            {
-                if (state.animate) {
-                    state.currentTicks += 1;
-
-                    // check that enough time has passed to update
-                    if (state.currentTicks - state.lastUpdateTicks >= state.animateSpeed) {
-                        state.lastUpdateTicks = state.currentTicks;
-                        state.numBars += state.animateBarsStep;
-                        gui.riemannPage.update();
-                    }
-                    // Check if we need to reset the number of bars
-                    if (state.numBars < state.animateBarsUpperBound) {
-                        state.integrationResult = middleSum(state.leftBound, state.rightBound, state.numBars, 1);
-                    } else {
-                        state.numBars = state.animateBarsLowerBound;
-                    }
-                } else {
-                    state.integrationResult = middleSum(state.leftBound, state.rightBound, state.numBars, 1);
-                }
-            }
         }
 
-        if (GetMouseWheelMove() != 0) {
-            float wheelMove = GetMouseWheelMove();
-            s.gridScalingX *= (1 - wheelMove * 0.1);
-            s.gridScalingY *= (1 - wheelMove * 0.1);
-            s.inc = 0.1 * (s.gridScalingX / 50);
-            s.refresh = true;
-        }
-
-        if (IsMouseButtonPressed(0x0)) {
-            isDragging = true;
-            dragStartPos = GetMousePosition();
-        }
-
-        if (isDragging && IsMouseButtonDown(0x0)) {
-            Vector2 currentPos = GetMousePosition();
-            Vector2 delta = currentPos - dragStartPos;
-
-            // Fix the panning speed being too fast when zoomed very far in
-            s.offsetX -= delta.x / (512) * (10 * s.gridScalingX);
-            s.offsetY -= delta.y / (512) * (10 * s.gridScalingY);
-
-            dragStartPos = currentPos;
-        }
-
-        // detect mouse release
-        if (IsMouseButtonReleased(0x0)) {
-            isDragging = false;
-        }
+        mouseHandler.update();
 
         gui.draw();
         EndDrawing();
