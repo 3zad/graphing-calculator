@@ -24,7 +24,7 @@ void grid()
     for (int z = -1; z < 2; z+=2) {
         int markerPos = 0;
         while (markerPos < GetScreenWidth() && markerPos > -GetScreenWidth()) {
-            graphRectangle(markerPos, 0, 1, GetScreenHeight(), Colors.GRAY);
+            graphRectangle(markerPos+(s.offsetX/50-((s.offsetX/50)%50)), -s.offsetY/50, 1, GetScreenHeight(), Colors.GRAY);
             graphRectangle(markerPos, 0, 2, 50, Colors.RED);
             markerPos += z;
         }
@@ -33,7 +33,7 @@ void grid()
     for (int z = -1; z < 2; z+=2) {
         int markerPos = 0;
         while (markerPos < GetScreenHeight() && markerPos > -GetScreenHeight()) {
-            graphRectangle(0, markerPos, GetScreenWidth(), 1, Colors.GRAY);
+            graphRectangle(s.offsetX/50, markerPos-(s.offsetY/50-((s.offsetY/50)%50)), GetScreenWidth(), 1, Colors.GRAY);
             graphRectangle(0, markerPos, 50, 2, Colors.RED);
             markerPos += z;
         }
