@@ -71,6 +71,14 @@ void main()
             }
         }
 
+        if (GetMouseWheelMove() != 0) {
+            float wheelMove = GetMouseWheelMove();
+            s.gridScalingX *= (1 - wheelMove * 0.1);
+            s.gridScalingY *= (1 - wheelMove * 0.1);
+            s.inc = 0.1 * (s.gridScalingX / 50);
+            s.refresh = true;
+        }
+
         if (IsMouseButtonPressed(0x0)) {
             isDragging = true;
             dragStartPos = GetMousePosition();
@@ -81,8 +89,8 @@ void main()
             Vector2 delta = currentPos - dragStartPos;
 
             // Fix the panning speed being too fast when zoomed very far in
-            s.offsetX -= delta.x / (GetScreenWidth()) * (10 * s.gridScalingX);
-            s.offsetY -= delta.y / (GetScreenHeight()) * (10 * s.gridScalingY);
+            s.offsetX -= delta.x / (512) * (10 * s.gridScalingX);
+            s.offsetY -= delta.y / (512) * (10 * s.gridScalingY);
 
             dragStartPos = currentPos;
         }
