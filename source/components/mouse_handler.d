@@ -47,7 +47,7 @@ public class MouseHandler {
 
     private void handleScroll() {
         if (GetMouseWheelMove() != 0) {
-            float wheelMove = GetMouseWheelMove();
+            float wheelMove = -GetMouseWheelMove();
             s.gridScalingX *= (1 - wheelMove * 0.1);
             s.gridScalingY *= (1 - wheelMove * 0.1);
 
